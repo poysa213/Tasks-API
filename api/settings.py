@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'Secret_key!'
+SECRET_KEY = '1vmtg=ivr3a4=#=w1x+%priqdr$fdajg+6&jk)g3n#sy0z1oxa'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,19 +79,17 @@ WSGI_APPLICATION = 'api.wsgi.application'
 
 
 
-DATABASES = {  
-    'default': {  
-        'ENGINE': 'django.db.backends.mysql',  
-        'NAME': 'todo',  
-        'USER': 'root',  
-        'PASSWORD': 'Wrie ur password Hh',  
-        'HOST': '127.0.0.1',  
-        'PORT': '3306',  
-        'OPTIONS': {  
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"  
-        }  
-    }  
-}  
+# I have a problem in db mysql
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'todo',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+} 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 

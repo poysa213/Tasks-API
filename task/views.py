@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from telnetlib import STATUS
+
 from .models import *
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework import status
 from rest_framework.response import Response
 from .serializers import TaskSerializer
 # Create your views here.
@@ -18,36 +20,45 @@ def apiOverview(request):
     }
     return Response(api_urls)
 
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def taskList(request):
-    tasks = Task.objects.all().order_by('-create')
-    serializer = TaskSerializer(tasks, many=True)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        tasks = Task.objects.all().order_by('-create')
+        serializer = TaskSerializer(tasks, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK )
 
-@api_view(['GET'])
+    elif request.mehtod == 'POST':
+        serializer = TaskSerializer(data=request.data)
+        if serializer.is_valid():
+           serializer.save()
+           return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    else :
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+@api_view(['GET','PUT','DELETE'])
 def taskDetail(request, pk):
-    task = Task.objects.get(id=  int(pk))
-    serializer = TaskSerializer(task, many=False)
-    return Response(serializer.data)
+    try:
+        task = Task.objects.get(id=  int(pk))
+    except Task.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
-@api_view(['POST'])
-def taskCreate(request):
-    serializer = TaskSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'GET':
+        serializer = TaskSerializer(task, many=False)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['PUT'])
-def taskUpdate(request, pk):
-    task = Task.objects.get(id= int(pk))
-    serializer = TaskSerializer(instance=task, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
-    
-@api_view(['DELETE'])
-def taskDelete(request, pk):
-    task = Task.objects.get(id= int(pk))
-    task.delete()
-    return Response('Item succsesfully deleted!')    
+    elif request.method == 'PUT':
+        serializer = TaskSerializer(instance=task, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)
+        
+    elif request.mehtod == 'DELETE':
+        task.delete()
+        return Response('Item succsesfully deleted!', status=status.HTTP_200_OK)    
+    else :
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
