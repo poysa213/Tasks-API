@@ -4,8 +4,8 @@ This is a To-Do Application developed with Django Rest Framework, and mysql data
 <br>
 
 <h2 style="color:red">End Points</h2> <br>
-GET /api/task-list/ <br>
-GET /api/task-detail/{pk} <br>
-POST /api/task-create/ <br>
-POST /api/task-update/{pk} <br>
-DELETE /api/task-delete/{pk} <br>
+GET /api/tasks/ <br>
+GET /api/tasks/{pk} <br>
+POST /api/tasks/ <br>
+PUT /api/tasks/{pk} <br>
+DELETE /api/tasks/{pk} <br>
