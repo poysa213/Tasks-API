@@ -1,6 +1,6 @@
-# toDo-app-django-rest-framework-drf
+# tasks api wit django-rest-framework ~ drf
 
-This is a To-Do Application developed with Django Rest Framework, and mysql database is used.
+This is a Tastks api developed with Django Rest Framework, and mysql database is used.
 <br>
 
 <h2 style="color:red">End Points</h2> <br>
